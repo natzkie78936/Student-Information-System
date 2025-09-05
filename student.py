@@ -1,22 +1,24 @@
 import json
 
 students = {}
-filename = "students.json"
 
-def load_data():
-    global students
+def load():
     try:
-        with open(filename, "r") as f:
-            students = json.load(f)
-        print("Data loaded successfully!\n")
+        with open("students.txt", "r") as f:
+            for line in f:
+                sid, name, age, *grades = line.strip().split(",")
+                grades = [int(g) for g in grades[0].split()] if grades else []
+                students[sid] = {"name": name, "age": int(age), "grades": grades}
+        print("Records loaded from students.txt!\n")
     except FileNotFoundError:
-        students = {}
-        print("No saved data found.\n")
+        print("No file found. Starting with empty records.\n")
 
-def save_data():
-    with open(filename, "w") as f:
-        json.dump(students, f, indent=4)
-    print("Data saved successfully!\n")
+def save):
+    with open("students.txt", "w") as f:
+        for sid, info in students.items():
+            grades_str = " ".join(map(str, info["grades"]))
+            f.write(f"{sid},{info['name']},{info['age']},{grades_str}\n")
+    print("Records saved to students.txt!\n")
 
 calc_average = lambda grades: sum(grades) / len(grades) if grades else 0
 
@@ -93,9 +95,9 @@ while True:
         elif choice == "4":
             delete_student()
         elif choice == "5":
-            save_data()
+            save()
         elif choice == "6":
-            load_data()
+            load()
         elif choice == "7":
             print("Exiting program... Goodbye!")
             break

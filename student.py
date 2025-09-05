@@ -13,7 +13,7 @@ def load():
     except FileNotFoundError:
         print("No file found. Starting with empty records.\n")
 
-def save):
+def save():
     with open("students.txt", "w") as f:
         for sid, info in students.items():
             grades_str = " ".join(map(str, info["grades"]))
